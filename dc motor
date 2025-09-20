@@ -1,0 +1,24 @@
+int ena=6;
+int in1=5;
+int in2=4;
+void setup()
+{
+  pinMode(in1,OUTPUT);
+  pinMode(in2,OUTPUT);
+  pinMode(ena,OUTPUT);
+}
+
+void loop()
+{
+  digitalWrite(in1,HIGH);
+  digitalWrite(in2,LOW);
+  analogWrite(ena,255);
+  delay(1000);
+  digitalWrite(in1,LOW);
+  digitalWrite(in2,HIGH);
+  delay(1000);
+  analogWrite(ena, 0); 
+  delay(1000);
+ 
+  
+}
