@@ -1,0 +1,44 @@
+int trigPin=33;
+int echoPin =35;
+int ena =14;
+int in1=26;
+int in2 =27;
+
+void setup() {
+  pinMode(trigPin,OUTPUT);
+  pinMode(echoPin,INPUT);
+  pinMode(ena,OUTPUT);
+  pinMode(in1,OUTPUT);
+  pinMode(in2,OUTPUT);
+  Serial.begin(9600);
+}
+
+void loop() {
+  long duration;
+  int distance;
+
+  digitalWrite(trigPin,LOW);
+  delayMicroseconds(2);
+  digitalWrite(trigPin,HIGH);
+  delayMicroseconds(10);
+  digitalWrite(trigPin,LOW);
+  delayMicroseconds(2);
+  duration = pulseIn(echoPin,HIGH);
+  distance = duration *0.034/2;
+
+  Serial.print("Distance:");
+  Serial.print(distance);
+  Serial.println("cm");
+
+  if (distance >20) {
+    digitalWrite(in1,HIGH);
+    digitalWrite(in2,LOW);
+    analogWrite(ena,200);
+  } else {
+    analogWrite(ena,0);
+  }
+
+  delay(100);
+}
+
+
