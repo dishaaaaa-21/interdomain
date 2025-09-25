@@ -1,0 +1,117 @@
+int FL1=26;   //front lefttt
+int FL2=27;
+int FLP=25;
+
+int FR1=33;   //front RIGHTT
+int FR2=14;
+int FRP=32;
+
+int RL1=13;   //REAR lefttt
+int RL2=15;
+int RLP=12;
+
+int RR1=4;   //Rear RIGHTT
+int RR2=16;
+int RRP=2;
+
+int speed = 180;
+
+int FTrig=5;   //frontt
+int FEcho=18;
+int BTrig=22;   //back
+int BEcho=23;
+int RTrig=19;   //RIGHT
+int REcho=21;
+int LTrig=17;   //LEFTT
+int LEcho=35;
+
+int mindistance = 20;    //minm distance from obstacle
+
+void setup(){
+pinMode(FL1,OUTPUT);pinMode(FL2,OUTPUT);
+pinMode(FR1,OUTPUT);pinMode(FR2,OUTPUT);
+pinMode(RL1,OUTPUT);pinMode(RL2,OUTPUT);
+pinMode(RR1,OUTPUT);pinMode(RR2,OUTPUT);
+
+ledcSetup(0,1000,8); ledcAttachPin(FLP,0);
+ledcSetup(1,1000,8); ledcAttachPin(FRP,1);
+ledcSetup(2,1000,8); ledcAttachPin(RLP,2);
+ledcSetup(3,1000,8); ledcAttachPin(RRP,3);
+
+pinMode(FTrig,OUTPUT); pinMode(FEcho,INPUT);
+pinMode(BTrig,OUTPUT); pinMode(BEcho,INPUT);
+pinMode(RTrig,OUTPUT); pinMode(REcho,INPUT);
+pinMode(LTrig,OUTPUT); pinMode(LEcho,INPUT);
+Serial.begin(115200);
+}
+int getDist(int trigPin , int echoPin){
+    digitalWrite(trigPin,LOW);
+    delayMicroseconds(2);
+    digitalWrite(trigPin,HIGH);
+    delayMicroseconds(10);
+    digitalWrite(trigPin,LOW);
+    
+    long duration=pulseIn(echoPin,HIGH,30000);
+    if (duration==0) duration=30000;
+    int dist = duration*0.034/2;
+    return dist;
+
+}
+
+//move forward
+void mF(){
+    digitalWrite(FL1,HIGH);digitalWrite(FL2,LOW);ledcWrite(0,speed);
+    digitalWrite(FR1,HIGH);digitalWrite(FR2,LOW);ledcWrite(1,speed);
+    digitalWrite(RL1,HIGH);digitalWrite(RL2,LOW);ledcWrite(2,speed);
+    digitalWrite(RR1,HIGH);digitalWrite(RR2,LOW);ledcWrite(3,speed);
+}
+//move backward
+void mB(){
+    digitalWrite(FL1,LOW);digitalWrite(FL2,HIGH);ledcWrite(0,speed);
+    digitalWrite(FR1,LOW);digitalWrite(FR2,HIGH);ledcWrite(1,speed);
+    digitalWrite(RL1,LOW);digitalWrite(RL2,HIGH);ledcWrite(2,speed);
+    digitalWrite(RR1,LOW);digitalWrite(RR2,HIGH);ledcWrite(3,speed);
+}
+//move RIGHT
+void mR(){
+    digitalWrite(FL1,HIGH);digitalWrite(FL2,LOW);ledcWrite(0,speed);
+    digitalWrite(FR1,LOW);digitalWrite(FR2,HIGH);ledcWrite(1,speed);
+    digitalWrite(RL1,LOW);digitalWrite(RL2,HIGH);ledcWrite(2,speed);
+    digitalWrite(RR1,HIGH);digitalWrite(RR2,LOW);ledcWrite(3,speed);
+}
+//move LEFT
+void mL(){
+    digitalWrite(FL1,LOW);digitalWrite(FL2,HIGH);ledcWrite(0,speed);
+    digitalWrite(FR1,HIGH);digitalWrite(FR2,LOW);ledcWrite(1,speed);
+    digitalWrite(RL1,HIGH);digitalWrite(RL2,LOW);ledcWrite(2,speed);
+    digitalWrite(RR1,LOW);digitalWrite(RR2,HIGH);ledcWrite(3,speed);
+}
+
+void loop(){
+    int distF = getDist(FTrig,FEcho);
+    int distB = getDist(BTrig,BEcho);
+    int distR = getDist(RTrig,REcho);
+    int distL = getDist(LTrig,LEcho);
+
+
+    Serial.print("FRONT:");Serial.print(distF);
+    Serial.print("BACK:");Serial.print(distB);
+    Serial.print("RIGHT:");Serial.print(distR);
+    Serial.print("LEFT:");Serial.print(distL);
+
+    if (distF < mindistance && distB < mindistance){
+        mR(); // front back blocked MOVE RIGHT
+    } else if ( distF < mindistance){
+        mL(); //front block move left
+    
+    } else if (distR < mindistance){
+        mL(); // right block move left
+
+    } else if (distL < mindistance){
+        mR(); // left block move rightt
+    } else {
+        mF();//move front 
+    }
+    delay (100);
+
+}
