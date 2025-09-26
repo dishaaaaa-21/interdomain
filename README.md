@@ -41,6 +41,9 @@ RTrig (Right Trigger)	16
 REcho (Right Echo)	17
 LTrig (Left Trigger)	23
 LEcho (Left Echo)	22
+
+
+
 👥 Team Members
 Disha – SPACED
 
