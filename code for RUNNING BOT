@@ -1,29 +1,32 @@
-int FL1=26;   //front lefttt
-int FL2=27;
-int FLP=25;
+int FL1=19;   //front lefttt
+int FL2=18;
+int FLP=21;
 
-int FR1=33;   //front RIGHTT
-int FR2=14;
-int FRP=32;
+int FR1=5;   //front RIGHTT
+int FR2=4;
+int FRP=2;
 
-int RL1=13;   //REAR lefttt
-int RL2=15;
-int RLP=12;
+int RL1=26;   //REAR lefttt
+int RL2=27;
+int RLP=14;
 
-int RR1=4;   //Rear RIGHTT
-int RR2=16;
-int RRP=2;
+int RR1=25;   //Rear RIGHTT
+int RR2=33;
+int RRP=32;
 
-int speed = 180;
+int speed =180;
 
-int FTrig=5;   //frontt
-int FEcho=18;
-int BTrig=22;   //back
-int BEcho=23;
-int RTrig=19;   //RIGHT
-int REcho=21;
-int LTrig=17;   //LEFTT
-int LEcho=35;
+int FTrig=12;   //frontt
+int FEcho=13;
+
+int BTrig=15;   //back
+int BEcho=36;
+
+int RTrig=16;   //RIGHT
+int REcho=17;
+
+int LTrig=23;   //LEFTT
+int LEcho=22;
 
 int mindistance = 20;    //minm distance from obstacle
 
@@ -112,6 +115,10 @@ void loop(){
     } else {
         mF();//move front 
     }
+    delay (100);
+
+}
+ 
     delay (100);
 
 }
